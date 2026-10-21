@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{{ dish.name }} — Ресторан{% endblock %}
+{% block content %}
+<a href="{{ url_for('web.list_dishes') }}">← Назад к меню</a>
+<h1>{{ dish.name }}</h1>
+<div class="detail">
+    <p><strong>Категория:</strong> {{ dish.category.name }}</p>
+    <p><strong>Описание:</strong> {{ dish.description or "—" }}</p>
+    <p><strong>Цена:</strong> {{ "%.2f"|format(dish.price) }} ₽</p>
+    <p><strong>Калорийность:</strong> {{ dish.calories }} ккал</p>
+    <p><strong>Статус:</strong> {% if dish.available %}<span class="ok">доступно</span>{% else %}<span class="no">недоступно</span>{% endif %}</p>
+</div>
+<div class="actions">
+    <a class="btn" href="{{ url_for('web.edit_dish', dish_id=dish.id) }}">Изменить</a>
+    <a class="btn" href="{{ url_for('web.create_order') }}">В заказ</a>
+</div>
+{% endblock %}

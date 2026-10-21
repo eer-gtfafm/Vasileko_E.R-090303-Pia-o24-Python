@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Новый заказ{% endblock %}
+{% block content %}
+<h1>Оформить заказ</h1>
+<form method="post" class="form">
+    <label>Имя клиента <input type="text" name="customer_name" required></label>
+    <fieldset>
+        <legend>Блюда (выберите одно или несколько)</legend>
+        {% for dish in dishes %}
+        {% if dish.available %}
+        <label class="check"><input type="checkbox" name="dish_ids" value="{{ dish.id }}"> {{ dish.name }} — {{ "%.2f"|format(dish.price) }} ₽</label>
+        {% endif %}
+        {% endfor %}
+    </fieldset>
+    <button type="submit" class="btn">Создать заказ</button>
+</form>
+{% endblock %}

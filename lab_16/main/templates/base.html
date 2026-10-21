@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Отель{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <a class="brand" href="{% url 'index' %}">🏨 Отель</a>
+        <a href="{% url 'index' %}">Главная</a>
+        <a href="{% url 'room_list' %}">Номера</a>
+        <a href="{% url 'booking_list' %}">Бронирования</a>
+        <a href="{% url 'guest_list' %}">Гости</a>
+        <a href="{% url 'statistics' %}">Статистика</a>
+        {% if user.is_authenticated %}
+            <span class="user">Пользователь: {{ user.username }}
+                {% if user.is_staff %}(администратор){% endif %}</span>
+            <form method="post" action="{% url 'logout' %}" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="btn small">Выйти</button>
+            </form>
+        {% else %}
+            <a class="btn small" href="{% url 'login' %}">Войти</a>
+        {% endif %}
+    </nav>
+</header>
+<main class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}{% endblock %}
+</main>
+<footer>Лабораторная работа №16 — Django-приложение «Отель»</footer>
+</body>
+</html>

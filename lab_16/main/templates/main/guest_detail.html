@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Гость: {{ guest.full_name }}{% endblock %}
+{% block content %}
+<a href="{% url 'guest_list' %}">← Назад к гостям</a>
+<h1>{{ guest.full_name }}</h1>
+<div class="detail">
+    <p><strong>Email:</strong> {{ guest.email }}</p>
+    <p><strong>Телефон:</strong> {{ guest.phone|default:"—" }}</p>
+    <h2>Бронирования гостя</h2>
+    <ul>
+        {% for booking in guest.bookings.all %}
+        <li>Номер {{ booking.room.number }} — {{ booking.check_in }} … {{ booking.check_out }} ({{ booking.nights }} ноч., {{ booking.total_price }} ₽)</li>
+        {% empty %}
+        <li>Бронирований нет.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

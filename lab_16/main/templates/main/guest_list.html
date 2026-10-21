@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Гости — Отель{% endblock %}
+{% block content %}
+<h1>Гости</h1>
+<div class="actions"><a class="btn" href="{% url 'guest_create' %}">Добавить гостя</a></div>
+<table class="items">
+    <thead><tr><th>ФИО</th><th>Email</th><th>Телефон</th><th></th></tr></thead>
+    <tbody>
+        {% for guest in guests %}
+        <tr>
+            <td><a href="{% url 'guest_detail' guest.pk %}">{{ guest.full_name }}</a></td>
+            <td>{{ guest.email }}</td>
+            <td>{{ guest.phone|default:"—" }}</td>
+            <td><a class="btn small" href="{% url 'guest_detail' guest.pk %}">Подробнее</a></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">Гостей нет.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}">← Пред.</a>{% endif %}
+    <span>Стр. {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}">След. →</a>{% endif %}
+</div>
+{% endblock %}

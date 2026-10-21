@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Бронирования — Отель{% endblock %}
+{% block content %}
+<h1>Бронирования</h1>
+<div class="actions"><a class="btn" href="{% url 'booking_create' %}">Новое бронирование</a></div>
+<table class="items">
+    <thead>
+        <tr><th>Номер</th><th>Гость</th><th>Заезд</th><th>Выезд</th><th>Ночей</th><th>Стоимость</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td><a href="{% url 'booking_detail' booking.pk %}">{{ booking.room.number }}</a></td>
+            <td>{{ booking.guest.full_name }}</td>
+            <td>{{ booking.check_in }}</td>
+            <td>{{ booking.check_out }}</td>
+            <td>{{ booking.nights }}</td>
+            <td>{{ booking.total_price }} ₽</td>
+            <td>
+                {% if user.is_staff %}
+                <a class="btn small danger" href="{% url 'booking_delete' booking.pk %}">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7">Бронирований нет.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

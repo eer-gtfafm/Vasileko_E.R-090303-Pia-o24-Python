@@ -1,0 +1,25 @@
+body {
+    font-family: "Times New Roman", serif;
+    margin: 0;
+    padding: 24px;
+    background: #f5f6f8;
+    color: #1f2937;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.room-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
+.room-card img {
+    width: 100%;
+    border-radius: 8px;
+}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Номер {{ room.number }}{% endblock %}
+{% block content %}
+<a href="{% url 'room_list' %}">← Назад к списку</a>
+<h1>Номер {{ room.number }}</h1>
+<div class="detail">
+    <p><strong>Тип:</strong> {{ room.room_type.name }}</p>
+    <p><strong>Этаж:</strong> {{ room.floor }}</p>
+    <p><strong>Вместимость:</strong> {{ room.capacity }} чел.</p>
+    <p><strong>Цена:</strong> {{ room.price }} ₽ за ночь</p>
+    <p><strong>Состояние:</strong> {{ room.get_status_display }}</p>
+    <p><strong>Удобства:</strong> {{ room.amenities|default:"—" }}</p>
+    <h2>Бронирования номера</h2>
+    <ul>
+        {% for booking in room.bookings.all %}
+        <li>{{ booking.guest.full_name }} — {{ booking.check_in }} … {{ booking.check_out }} ({{ booking.nights }} ноч., {{ booking.total_price }} ₽)</li>
+        {% empty %}
+        <li>Бронирований нет.</li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="actions">
+    {% if user.is_staff %}
+    <a class="btn" href="{% url 'room_update' room.pk %}">Изменить</a>
+    <a class="btn danger" href="{% url 'room_delete' room.pk %}">Удалить</a>
+    {% endif %}
+    <a class="btn" href="{% url 'booking_create' %}">Забронировать</a>
+</div>
+{% endblock %}

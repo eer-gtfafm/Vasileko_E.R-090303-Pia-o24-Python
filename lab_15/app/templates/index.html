@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Главная — Ресторан{% endblock %}
+{% block content %}
+<h1>Добро пожаловать в ресторан</h1>
+<p>Учебное Flask-приложение: меню блюд и оформление заказов. Хранилище — SQLAlchemy ORM (SQLite/PostgreSQL), серверный рендеринг — Jinja2, дополнительно доступен REST API (/api/dishes).</p>
+<div class="cards">
+    <div class="card">
+        <h2>Заказов</h2>
+        <p class="big">{{ stats.total }}</p>
+    </div>
+    <div class="card">
+        <h2>Выручка</h2>
+        <p class="big">{{ "%.2f"|format(stats.revenue) }} ₽</p>
+    </div>
+    <div class="card">
+        <h2>Средний чек</h2>
+        <p class="big">{{ "%.2f"|format(stats.average) }} ₽</p>
+    </div>
+</div>
+<div class="actions">
+    <a class="btn" href="{{ url_for('web.list_dishes') }}">Открыть меню</a>
+    <a class="btn" href="{{ url_for('web.create_dish') }}">Добавить блюдо</a>
+    <a class="btn" href="{{ url_for('web.create_order') }}">Оформить заказ</a>
+</div>
+{% endblock %}

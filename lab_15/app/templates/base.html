@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Ресторан{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <a class="brand" href="{{ url_for('web.index') }}">🍽 Ресторан</a>
+        <a href="{{ url_for('web.index') }}">Главная</a>
+        <a href="{{ url_for('web.list_dishes') }}">Меню</a>
+        <a href="{{ url_for('web.create_dish') }}">Добавить блюдо</a>
+        <a href="{{ url_for('web.list_orders') }}">Заказы</a>
+        <a href="{{ url_for('web.create_order') }}">Новый заказ</a>
+    </nav>
+</header>
+<main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+<footer>Лабораторная работа №15 — Flask-приложение «Ресторан»</footer>
+</body>
+</html>

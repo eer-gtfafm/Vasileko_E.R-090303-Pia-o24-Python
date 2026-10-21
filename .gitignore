@@ -1,0 +1,40 @@
+# Виртуальные окружения
+venv/
+.venv/
+env/
+ENV/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Тесты и покрытие
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+
+# Базы данных и локальные данные
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# macOS
+.DS_Store
+._*
+
+# Редакторы и IDE
+.vscode/
+.idea/
+*.swp
+
+# Секреты
+.env
+.env.local
+.env.*

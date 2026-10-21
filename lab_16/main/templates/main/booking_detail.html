@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Бронирование: {{ booking.room.number }}{% endblock %}
+{% block content %}
+<a href="{% url 'booking_list' %}">← Назад к списку</a>
+<h1>Бронирование №{{ booking.pk }}</h1>
+<div class="detail">
+    <p><strong>Номер:</strong> {{ booking.room.number }} ({{ booking.room.room_type.name }})</p>
+    <p><strong>Гость:</strong> {{ booking.guest.full_name }} — {{ booking.guest.email }}</p>
+    <p><strong>Заезд:</strong> {{ booking.check_in }}</p>
+    <p><strong>Выезд:</strong> {{ booking.check_out }}</p>
+    <p><strong>Ночей:</strong> {{ booking.nights }}</p>
+    <p><strong>Стоимость:</strong> {{ booking.total_price }} ₽</p>
+</div>
+{% endblock %}

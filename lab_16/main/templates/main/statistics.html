@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Статистика — Отель{% endblock %}
+{% block content %}
+<h1>Статистика отеля</h1>
+<div class="cards">
+    <div class="card"><h2>Номеров</h2><p class="big">{{ stats.rooms_total }}</p><p>свободно {{ stats.rooms_free }} / занято {{ stats.rooms_booked }}</p></div>
+    <div class="card"><h2>Средняя цена</h2><p class="big">{{ stats.avg_price|floatformat:2 }} ₽</p><p>мин {{ stats.min_price }} ₽, макс {{ stats.max_price }} ₽</p></div>
+    <div class="card"><h2>Бронирований</h2><p class="big">{{ stats.bookings_total }}</p><p>выручка {{ stats.revenue }} ₽</p></div>
+    <div class="card"><h2>Гостей</h2><p class="big">{{ stats.guests_total }}</p></div>
+</div>
+<h2>Номера по типам</h2>
+<table class="items">
+    <thead><tr><th>Тип</th><th>Количество</th><th>Средняя цена</th></tr></thead>
+    <tbody>
+        {% for item in by_type %}
+        <tr><td>{{ item.name }}</td><td>{{ item.count }}</td><td>{{ item.avg_price|floatformat:2 }} ₽</td></tr>
+        {% empty %}
+        <tr><td colspan="3">Данных нет.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}404 — Страница не найдена{% endblock %}
+{% block content %}
+<h1>404</h1>
+<p>Запрошенная страница не найдена. Возможно, объект был удалён или адрес указан неверно.</p>
+<a class="btn" href="{{ url_for('web.index') }}">На главную</a>
+{% endblock %}

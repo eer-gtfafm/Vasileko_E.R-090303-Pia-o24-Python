@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Номера — Отель{% endblock %}
+{% block content %}
+<h1>Номера отеля</h1>
+<form method="get" class="filters">
+    <input type="text" name="q" placeholder="Поиск по номеру или удобствам" value="{{ q }}">
+    <select name="type">
+        <option value="">Все типы</option>
+        {% for t in types %}
+        <option value="{{ t.id }}" {% if type_selected == t.id|stringformat:"s" %}selected{% endif %}>{{ t.name }}</option>
+        {% endfor %}
+    </select>
+    <select name="status">
+        <option value="">Любое состояние</option>
+        <option value="free" {% if status_selected == 'free' %}selected{% endif %}>Свободен</option>
+        <option value="booked" {% if status_selected == 'booked' %}selected{% endif %}>Занят</option>
+        <option value="maintenance" {% if status_selected == 'maintenance' %}selected{% endif %}>На обслуживании</option>
+    </select>
+    <select name="sort">
+        <option value="number" {% if sort == 'number' %}selected{% endif %}>по номеру</option>
+        <option value="price" {% if sort == 'price' %}selected{% endif %}>по цене ↑</option>
+        <option value="-price" {% if sort == '-price' %}selected{% endif %}>по цене ↓</option>
+        <option value="capacity" {% if sort == 'capacity' %}selected{% endif %}>по вместимости</option>
+        <option value="-capacity" {% if sort == '-capacity' %}selected{% endif %}>по вместимости ↓</option>
+    </select>
+    <button type="submit" class="btn">Применить</button>
+</form>
+
+{% if user.is_staff %}
+<div class="actions"><a class="btn" href="{% url 'room_create' %}">Добавить номер</a></div>
+{% endif %}
+
+<table class="items">
+    <thead>
+        <tr><th>Номер</th><th>Тип</th><th>Этаж</th><th>Мест</th><th>Цена</th><th>Состояние</th><th></th></tr>
+    </thead>
+    <tbody>
+        {% for room in rooms %}
+        <tr>
+            <td><a href="{% url 'room_detail' room.pk %}">{{ room.number }}</a></td>
+            <td>{{ room.room_type.name }}</td>
+            <td>{{ room.floor }}</td>
+            <td>{{ room.capacity }}</td>
+            <td>{{ room.price }} ₽</td>
+            <td>{{ room.get_status_display }}</td>
+            <td>
+                {% if user.is_staff %}
+                <a class="btn small" href="{% url 'room_update' room.pk %}">Изменить</a>
+                <a class="btn small danger" href="{% url 'room_delete' room.pk %}">Удалить</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7">Номера не найдены.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="pagination">
+    {% if rooms.has_previous %}<a href="?page={{ rooms.previous_page_number }}&q={{ q }}">← Пред.</a>{% endif %}
+    <span>Стр. {{ rooms.number }} из {{ rooms.paginator.num_pages }}</span>
+    {% if rooms.has_next %}<a href="?page={{ rooms.next_page_number }}&q={{ q }}">След. →</a>{% endif %}
+</div>
+{% endblock %}

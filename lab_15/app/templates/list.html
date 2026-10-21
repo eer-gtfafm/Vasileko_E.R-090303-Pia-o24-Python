@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Меню — Ресторан{% endblock %}
+{% block content %}
+<h1>Меню ресторана</h1>
+
+<form class="filters" method="get" action="{{ url_for('web.list_dishes') }}">
+    <input type="text" name="search" placeholder="Поиск по названию или описанию" value="{{ search }}">
+    <select name="category_id">
+        <option value="">Все категории</option>
+        {% for category in categories %}
+        <option value="{{ category.id }}" {% if category_id == category.id|string %}selected{% endif %}>{{ category.name }}</option>
+        {% endfor %}
+    </select>
+    <select name="available">
+        <option value="">Любая доступность</option>
+        <option value="1" {% if available == '1' %}selected{% endif %}>Доступно</option>
+        <option value="0" {% if available == '0' %}selected{% endif %}>Недоступно</option>
+    </select>
+    <select name="sort">
+        <option value="name" {% if sort == 'name' %}selected{% endif %}>Сортировать: по названию</option>
+        <option value="price" {% if sort == 'price' %}selected{% endif %}>по цене</option>
+        <option value="calories" {% if sort == 'calories' %}selected{% endif %}>по калорийности</option>
+    </select>
+    <select name="order">
+        <option value="asc" {% if order == 'asc' %}selected{% endif %}>по возрастанию</option>
+        <option value="desc" {% if order == 'desc' %}selected{% endif %}>по убыванию</option>
+    </select>
+    <button type="submit" class="btn">Применить</button>
+</form>
+
+{% if dishes %}
+<table class="items">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Цена</th>
+            <th>Ккал</th>
+            <th>Статус</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dish in dishes %}
+        <tr>
+            <td><a href="{{ url_for('web.dish_detail', dish_id=dish.id) }}">{{ dish.name }}</a></td>
+            <td>{{ dish.category.name }}</td>
+            <td>{{ "%.2f"|format(dish.price) }} ₽</td>
+            <td>{{ dish.calories }}</td>
+            <td>{% if dish.available %}<span class="ok">доступно</span>{% else %}<span class="no">нет</span>{% endif %}</td>
+            <td>
+                <a class="btn small" href="{{ url_for('web.edit_dish', dish_id=dish.id) }}">Изменить</a>
+                <form method="post" action="{{ url_for('web.delete_dish', dish_id=dish.id) }}" class="inline" onsubmit="return confirm('Удалить блюдо?')">
+                    <button type="submit" class="btn small danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Ничего не найдено.</p>
+{% endif %}
+{% endblock %}

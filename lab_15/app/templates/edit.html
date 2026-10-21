@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Изменить: {{ dish.name }}{% endblock %}
+{% block content %}
+<h1>Изменить блюдо «{{ dish.name }}»</h1>
+<form method="post" class="form">
+    <label>Название <input type="text" name="name" value="{{ dish.name }}" required></label>
+    <label>Описание <textarea name="description" rows="2">{{ dish.description }}</textarea></label>
+    <label>Категория
+        <select name="category_id" required>
+            {% for category in categories %}
+            <option value="{{ category.id }}" {% if category.id == dish.category_id %}selected{% endif %}>{{ category.name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>Цена, ₽ <input type="number" name="price" step="0.01" min="0.01" value="{{ dish.price }}" required></label>
+    <label>Калорийность, ккал <input type="number" name="calories" min="0" value="{{ dish.calories }}"></label>
+    <label class="check"><input type="checkbox" name="available" value="1" {% if dish.available %}checked{% endif %}> Доступно</label>
+    <button type="submit" class="btn">Сохранить</button>
+    <a class="btn" href="{{ url_for('web.dish_detail', dish_id=dish.id) }}">Отмена</a>
+</form>
+{% endblock %}
